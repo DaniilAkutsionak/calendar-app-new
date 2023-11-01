@@ -1,4 +1,7 @@
 import './App.css';
+
+import AppState from './context/App/AppState';
+
 import Main from './components/Main';
 
 
@@ -6,7 +9,12 @@ import Main from './components/Main';
 const App = () => {
   return (
     <>
-      <Main></Main>
+      <AppState>
+        <Main>
+          
+        </Main>
+      </AppState>
+        
     </>
   );
 }
