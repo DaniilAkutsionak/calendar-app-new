@@ -3,6 +3,7 @@ import AddEvent from '../modal/AddEvent'
 
 import AppContext from '../../context/App/appContext'
 import SelectModal from '../modal/SelectModal';
+import EditEvent from '../modal/EditEvent';
 
 const SideBar = () => {
   const appContext = useContext(AppContext);  
@@ -36,6 +37,7 @@ const SideBar = () => {
 
         <AddEvent></AddEvent>
         <SelectModal></SelectModal>
+        <EditEvent></EditEvent>
     </div>
   )
 }

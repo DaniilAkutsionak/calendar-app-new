@@ -14,7 +14,11 @@ const SelectModal = () => {
                 </div>
                 <div className="modal-body">
                     <div className="text-center">
-                        <button type="button" className="btn btn-primary">
+                        <button type="button" className="btn btn-primary"
+                            data-toggle="modal"
+                            data-target="#edit-event"
+                            data-dismiss="modal"
+                        >
                             Edit Event
                         </button>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
