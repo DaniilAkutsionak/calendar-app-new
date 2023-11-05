@@ -1,4 +1,4 @@
-import { ADD_EVENT, GET_EVENTS } from "../types";
+import { ADD_EVENT, GET_EVENTS, SELECT_EVENT, } from "../types";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
@@ -12,6 +12,11 @@ export default (state, action) => {
             return {
                 ...state,
                 events: action.payload
+            }
+            case SELECT_EVENT: 
+            return {
+                ...state,
+                selectedEvent: action.payload
             }
         default:
             return state;
