@@ -16,7 +16,7 @@ const EditEvent = () => {
   const [endDate, setEndDate] = useState(new Date());
 
   const appContext = useContext(AppContext);
-  const  {events, colors, selectedEvent, colorObj } = appContext;
+  const  {events, colors, selectedEvent, colorObj, editSelectedEvent } = appContext;
 
   const inputChange = (event) => {
     setEventName(event.target.value);
@@ -89,7 +89,8 @@ const EditEvent = () => {
   }
 
   const editEvent = () => {
-
+    const event = setEvent(selectedEvent.id);
+    editSelectedEvent(event);
   }
 
   const setEvent = id => {
@@ -108,6 +109,7 @@ const EditEvent = () => {
       title: eventname,
       start,
       end,
+      allDay: checkbox,
       bgColor: color,
       backgroundColor: colorObj[color], 
     };
