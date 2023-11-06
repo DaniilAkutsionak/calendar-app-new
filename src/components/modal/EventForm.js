@@ -8,6 +8,7 @@ const EventForm = props => {
     const {
         modalId,
         title,
+        description,
         closeModal,
         eventname,
         inputChange,
@@ -32,7 +33,7 @@ const EventForm = props => {
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{title}</h5>
-                    <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                    <button type='button' className='close' data-dismiss='modal' aria-label='close'
                     onClick={closeModal}>
                         X
                     </button>
@@ -50,6 +51,17 @@ const EventForm = props => {
                                 onChange={inputChange}
                             />
                         </div>
+                        <div className='form-group'>
+                            <label>Description</label>
+                            <textArea
+                                className='form-control fom-white'
+                                placeholder='Enter description'
+                                type='text'
+                                name='description'
+                                value={description}
+                                onChange={inputChange}
+                            ></textArea>
+                        </div>
                         <div className="form-check">                         
                             <input 
                                 className='form-check-input' 
@@ -63,32 +75,17 @@ const EventForm = props => {
                         </div>
                         <div className='form-group'>
                             <label >Start</label>
-                            <div className='row'>
-                                {
-                                    !showtime ?
-                                    <div className='col-md-12'>
+                            <div className='row'>                                                           <div className='col-md-12'>
                                     <ReactDatePicker
                                         showTimeSelect
                                         timeFormat='p'
-                                        timeIntervals={1}
+                                        timeIntervals={60}
                                         dateFormat="MMMM d, yyyy h:mm aa"
                                         selected={startDate}
                                         onChange={onInputChange('startdate')}
                                         className="form-control"
                                     />
-                                    </div> :
-                                    <div className='col-md-12'>
-                                    <ReactDatePicker
-                                        dateFormat="MMMM d, yyyy"
-                                        selected={startDate}
-                                        onChange={onInputChange('startdate')}
-                                        className="form-control"
-                                    />
-                                </div> 
-                                    
-                               
-                                }
-                                
+                                    </div>
                             </div>
                             
                         </div>

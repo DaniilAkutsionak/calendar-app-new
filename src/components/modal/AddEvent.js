@@ -11,6 +11,7 @@ const AddEvent = () => {
   const [eventname, setEventName] = useState('');
   const [checkbox, setCheckBox] = useState(false);
   const [showtime, setShowTime] = useState(false);
+  const [description, setDescription] = useState('')
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -18,7 +19,15 @@ const AddEvent = () => {
   const  {addEvent, events, colors, colorObj } = appContext;
 
   const inputChange = (event) => {
-    setEventName(event.target.value);
+    const attributeName = event.target.getAttribute('name')
+    if ( attributeName === 'event-name') {
+      setEventName(event.target.value);
+    } 
+
+    if ( attributeName === 'description') {
+      setDescription(event.target.value);
+    } 
+    
   }
   
 
@@ -73,19 +82,18 @@ const AddEvent = () => {
   }
 
   const setEvent = id => {
-    let start = '';
+    const start = `${moment(startDate).format()}`;
     let end = '';
     if (!checkbox) {
-      start = `${moment(startDate).format()}`;
       end = `${moment(startDate).format()}`;
     } else {
-      start = `${moment(startDate).format('YYYY-MM-DD')}`;
       end = `${moment(startDate).format('YYYY-MM-DD')}`;
     }
 
     const event = {
       id,
       title: eventname,
+      description,
       start,
       end,
       allDay: checkbox,
@@ -99,10 +107,12 @@ const AddEvent = () => {
   const reset = () => {
     setColor('');
     setEventName('');
+    setDescription('');
     setCheckBox(false);
     setShowTime(false);
     setStartDate(new Date());
     setEndDate(new Date());
+    
   }
 
   const closeModal = () =>{
@@ -114,6 +124,7 @@ const AddEvent = () => {
         <EventForm
           modalId="add-event"
           title="Add Event"
+          description={description}
           closeModal={closeModal}
           eventname={eventname}
           inputChange={inputChange}

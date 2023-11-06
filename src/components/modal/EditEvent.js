@@ -10,6 +10,7 @@ const EditEvent = () => {
 
   const [color, setColor] = useState('');
   const [eventname, setEventName] = useState('');
+  const [description, setDescription] = useState('')
   const [checkbox, setCheckBox] = useState(false);
   const [showtime, setShowTime] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
@@ -19,7 +20,14 @@ const EditEvent = () => {
   const  {events, colors, selectedEvent, colorObj, editSelectedEvent } = appContext;
 
   const inputChange = (event) => {
-    setEventName(event.target.value);
+    const attributeName = event.target.getAttribute('name')
+    if ( attributeName === 'event-name') {
+      setEventName(event.target.value);
+    } 
+
+    if ( attributeName === 'description') {
+      setDescription(event.target.value);
+    } 
   }
   
 
@@ -49,17 +57,16 @@ const EditEvent = () => {
     if (selectedEvent && Object.keys(selectedEvent).length) {
       setColor(selectedEvent.bgColor);
       setEventName(selectedEvent.title);
+      setDescription(selectedEvent.description)
       setCheckBox(selectedEvent.allDay);
-      let start = '';
+      const start = `${moment(startDate).format()}`;
       let end = '';
       if (!selectedEvent.allDay) {
         setShowTime(false);
-        start = `${moment(new Date(selectedEvent.start)).format()}`;
-        end = `${moment(new Date(selectedEvent.end)).format()}`;
+       end = `${moment(new Date(selectedEvent.end)).format()}`;
       } else {
         setShowTime(true);
-        start = `${moment(new Date(selectedEvent.start)).format('YYYY-MM-DD')}`;
-        end = `${moment(new Date(selectedEvent.end)).format('YYYY-MM-DD')}`;
+       end = `${moment(new Date(selectedEvent.end)).format('YYYY-MM-DD')}`;
       }
       setStartDate(new Date(start));
       setEndDate(new Date(end));
@@ -94,19 +101,18 @@ const EditEvent = () => {
   }
 
   const setEvent = id => {
-    let start = '';
+    const start = `${moment(startDate).format()}`;
     let end = '';
     if (!checkbox) {
-      start = `${moment(startDate).format()}`;
       end = `${moment(startDate).format()}`;
     } else {
-      start = `${moment(startDate).format('YYYY-MM-DD')}`;
       end = `${moment(startDate).format('YYYY-MM-DD')}`;
     }
 
     const event = {
       id,
       title: eventname,
+      description,
       start,
       end,
       allDay: checkbox,

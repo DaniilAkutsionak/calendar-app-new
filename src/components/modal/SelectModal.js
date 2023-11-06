@@ -4,7 +4,14 @@ import AppContext from '../../context/App/appContext'
 
 const SelectModal = () => {
     const appContext = useContext(AppContext);
-    const { selectedEvent, deleteSelectedEvent} = appContext;
+    const { selectedEvent, deleteSelectedEvent, selected} = appContext;
+
+    const deleteSelected = event => {
+        deleteSelectedEvent(event);
+        selected({})
+
+    }
+
   return (
     <>
         <div className="modal" id="selection-modal" tabIndex="-1" role="dialog">
@@ -27,7 +34,7 @@ const SelectModal = () => {
                         </button>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                         <button type="button" className="btn btn-danger" data-dismiss="modal"
-                            onClick={() => deleteSelectedEvent(selectedEvent)}
+                            onClick={() => deleteSelected(selectedEvent)}
                         >
                             Delete Event
                         </button>
