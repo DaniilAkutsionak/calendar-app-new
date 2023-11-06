@@ -10,6 +10,13 @@ const AppState = props => {
         events: [],
         colors: ['Primary', 'Success', 'Info', 'Warning', 'Danger'],
         selectEvent: {},
+        colorObj: {
+          primary: '#0275d8',
+          success: '#5cb85c',
+          info: '#5bc0de',
+          warning: '#f0ad4e',
+          danger: '#d9534f',
+        }
     };
           
     const [state, dispatch] = useReducer(AppReducer, initialState);
@@ -52,6 +59,7 @@ const AppState = props => {
           events: state.events,
           colors: state.colors,
           selectedEvent: state.selectedEvent,
+          colorObj: state.colorObj,
           addEvent,
           getEvents,
           selected,

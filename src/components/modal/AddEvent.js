@@ -15,7 +15,7 @@ const AddEvent = () => {
   const [endDate, setEndDate] = useState(new Date());
 
   const appContext = useContext(AppContext);
-  const  {addEvent, events, colors } = appContext;
+  const  {addEvent, events, colors, colorObj } = appContext;
 
   const inputChange = (event) => {
     setEventName(event.target.value);
@@ -36,13 +36,13 @@ const AddEvent = () => {
   }
 
   // const colors =['Primary', 'Success', 'Info', 'Warning', 'Danger'];
-  const colorObj = {
-    primary: '#0275d8',
-    success: '#5cb85c',
-    info: '#5bc0de',
-    warning: '#f0ad4e',
-    danger: '#d9534f',
-  }
+  // const colorObj = {
+  //   primary: '#0275d8',
+  //   success: '#5cb85c',
+  //   info: '#5bc0de',
+  //   warning: '#f0ad4e',
+  //   danger: '#d9534f',
+  // }
 
   const handleChange = event => {
     if (event.target.value !== 'Select color'){
@@ -88,6 +88,7 @@ const AddEvent = () => {
       title: eventname,
       start,
       end,
+      allDay: checkbox,
       bgColor: color,
       backgroundColor: colorObj[color], 
     };
@@ -126,6 +127,7 @@ const AddEvent = () => {
           colors={colors}
           handleChange={handleChange}
           eventType={createEvent}
+          colorObj={colorObj}
           buttonText="Save"
         />
     </div>
