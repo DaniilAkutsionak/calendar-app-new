@@ -9,6 +9,7 @@ import AppContext from '../../context/App/appContext'
 
 
 
+
 const Calendar = () => {
   const appContext = useContext(AppContext);  
   const { events, getEvents, selected } = appContext;
@@ -35,11 +36,18 @@ const Calendar = () => {
                   center: 'title',
                   right: 'dayGridMonth, timeGridWeek, timeGridDay'
               }}
+
+
+              dayMaxEvent={true}
+       
+              dayMaxEvents={2}
               events = {events}
               eventClick={handleEventClick}
-              eventLimit='2'
+              eventLimit={2}
+
               
             />
+            
         </div>
     </div>
   )

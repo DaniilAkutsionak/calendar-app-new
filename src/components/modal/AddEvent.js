@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react'
 import moment from 'moment/moment'
 import EventForm from './EventForm'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import AppContext from '../../context/App/appContext'
 
 

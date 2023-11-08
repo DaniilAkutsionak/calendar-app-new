@@ -1,7 +1,5 @@
 import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
-import "react-datepicker/dist/react-datepicker.css";
 import ReactDatePicker from 'react-datepicker';
 
 const EventForm = props => {

@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from 'react'
 import moment from 'moment/moment'
 
 import EventForm from './EventForm'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import AppContext from '../../context/App/appContext'
 
 
@@ -33,7 +32,9 @@ const EditEvent = () => {
 
   const onCheckBoxChange = e => {
     if (e.target.checked === true){
-     
+
+     console.log(tryuingNewLib);
+
       setShowTime(true);
       setCheckBox(true);
       console.log("dasd")
@@ -59,7 +60,7 @@ const EditEvent = () => {
       setEventName(selectedEvent.title);
       setDescription(selectedEvent.description)
       setCheckBox(selectedEvent.allDay);
-      const start = `${moment(startDate).format()}`;
+      const start = `${moment(new Date(startDate)).format()}`;
       let end = '';
       if (!selectedEvent.allDay) {
         setShowTime(false);
@@ -73,6 +74,8 @@ const EditEvent = () => {
     }
     // eslint-disable-next-line
   }, [selectedEvent, events]);
+
+  const tryuingNewLib = Intl.DateTimeFormat(navigator.language, { weekday: 'long', month: 'short', day: 'numeric' }).format(new Date())
 
   const handleChange = event => {
     if (event.target.value !== 'Select color'){
