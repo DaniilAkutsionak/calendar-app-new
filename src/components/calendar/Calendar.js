@@ -6,6 +6,7 @@ import FullCalendar  from '@fullcalendar/react';
 
 
 import AppContext from '../../context/App/appContext'
+import { Toast } from '../toast/Toast.js';
 
 
 
@@ -15,7 +16,7 @@ const Calendar = () => {
   const { events, getEvents, selected } = appContext;
 
   useEffect(() =>{
-    getEvents();
+    getEvents(); 
   }, [events]);
 
   const handleEventClick = info => {
@@ -49,6 +50,8 @@ const Calendar = () => {
             />
             
         </div>
+
+        <Toast></Toast>
     </div>
   )
 }

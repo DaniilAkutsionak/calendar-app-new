@@ -2,19 +2,21 @@ import React, { useReducer} from 'react'
 import { useLocalStorage } from '../../hooks/storage'
 import AppReducer from './appReducer'
 import AppContext from './appContext'
+import _ from 'lodash'
 
 
-import {ADD_EVENT, GET_EVENTS, SELECT_EVENT, EDIT_EVENT, DELETE_EVENT} from '../types'
+import {ADD_EVENT, GET_EVENTS, SELECT_EVENT, EDIT_EVENT, DELETE_EVENT, ACTIVE_EVENTS} from '../types'
 
 const AppState = props => {
     const initialState = {
         events: [],
         colors: ['Primary', 'Success', 'Info', 'Warning', 'Danger'],
         selectEvent: {},
+        activeCalendarEvents: [],
         colorObj: {
           primary: '#0275d8',
           success: '#5cb85c',
-          info: '#5bc0de',
+          info: '#5bc0de', 
           warning: '#f0ad4e',
           danger: '#d9534f',
         }
@@ -23,6 +25,7 @@ const AppState = props => {
     const [state, dispatch] = useReducer(AppReducer, initialState);
     const [item, setValue] = useLocalStorage('events');
     const [selectedItem, setSelectedItem] = useLocalStorage('selectedEvent');
+    const [active, setActiveEvents] = useLocalStorage('activeCalendarEvents');
 
     const addEvent = event => {
       let userEvents = [...state.events];
@@ -43,6 +46,18 @@ const AppState = props => {
           payload: item
         })
       }
+    }
+
+    //set due events
+    const activeEvents = event => {
+      let calendarEvents = [...state.activeCalendarEvents];
+      calendarEvents.push(event);
+      const activeEventsArray = _.uniqBy(calendarEvents, 'id');
+      setActiveEvents(activeEventsArray);
+      dispatch({
+        type: ACTIVE_EVENTS,
+        payload: activeEventsArray
+      });
     }
 
     // Edit selected events
@@ -66,10 +81,12 @@ const AppState = props => {
         payload: newEventsArray,
       })
 
+      const activeEventsArray = active.filter(e => e.id !== event.id)
+      setActiveEvents(activeEventsArray);
       dispatch({
-        type: SELECT_EVENT,
-        payload: {}
-      })
+        type: ACTIVE_EVENTS,
+        payload: activeEventsArray
+      });
     }
 
     //Set selected events
@@ -88,11 +105,13 @@ const AppState = props => {
           colors: state.colors,
           selectedEvent: state.selectedEvent,
           colorObj: state.colorObj,
+          activeCalendarEvents: state.activeCalendarEvents,
           addEvent,
           getEvents,
           selected,
           editSelectedEvent,
           deleteSelectedEvent,
+          activeEvents,
         }}
       >
         {props.children}
