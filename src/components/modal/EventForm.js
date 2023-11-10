@@ -1,13 +1,12 @@
 import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 import ReactDatePicker from 'react-datepicker';
 
 const EventForm = props => {
     const {
         modalId,
         title,
+        description,
         closeModal,
         eventname,
         inputChange,
@@ -22,6 +21,7 @@ const EventForm = props => {
         handleChange,
         eventType,
         buttonText,
+        colorObj, 
     } = props;
 
   return (
@@ -31,7 +31,7 @@ const EventForm = props => {
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{title}</h5>
-                    <button type="button" className="close" data-dismiss="modal" aria-label="Close"
+                    <button type='button' className='close' data-dismiss='modal' aria-label='close'
                     onClick={closeModal}>
                         X
                     </button>
@@ -49,6 +49,17 @@ const EventForm = props => {
                                 onChange={inputChange}
                             />
                         </div>
+                        <div className='form-group'>
+                            <label>Description</label>
+                            <textArea
+                                className='form-control fom-white'
+                                placeholder='Enter description'
+                                type='text'
+                                name='description'
+                                value={description}
+                                onChange={inputChange}
+                            ></textArea>
+                        </div>
                         <div className="form-check">                         
                             <input 
                                 className='form-check-input' 
@@ -62,10 +73,7 @@ const EventForm = props => {
                         </div>
                         <div className='form-group'>
                             <label >Start</label>
-                            <div className='row'>
-                                {
-                                    !showtime ?
-                                    <div className='col-md-12'>
+                            <div className='row'>                                                           <div className='col-md-12'>
                                     <ReactDatePicker
                                         showTimeSelect
                                         timeFormat='p'
@@ -75,19 +83,7 @@ const EventForm = props => {
                                         onChange={onInputChange('startdate')}
                                         className="form-control"
                                     />
-                                    </div> :
-                                    <div className='col-md-12'>
-                                    <ReactDatePicker
-                                        dateFormat="MMMM d, yyyy"
-                                        selected={startDate}
-                                        onChange={onInputChange('startdate')}
-                                        className="form-control"
-                                    />
-                                </div> 
-                                    
-                               
-                                }
-                                
+                                    </div>
                             </div>
                             
                         </div>
@@ -121,8 +117,13 @@ const EventForm = props => {
                         </div>
                         <div className='form-group'>
                             <label className="control-label">Choose Event Color</label>
-                            <select className='form-control form-white' name='event-color'
-                            onChange={handleChange}>
+                            <select 
+                                className='form-control form-white' name='event-color'
+                                value = {color} 
+                                onChange={handleChange}
+                                style={{'backgroundColor': colorObj[color] }}
+                                >
+
                                 <option>Select color</option>
                                 {
                                     colors.map(color =>

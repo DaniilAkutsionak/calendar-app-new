@@ -1,21 +1,22 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import moment from 'moment/moment'
+
 import EventForm from './EventForm'
 import AppContext from '../../context/App/appContext'
 
 
-const AddEvent = () => {
+const EditEvent = () => {
 
   const [color, setColor] = useState('');
   const [eventname, setEventName] = useState('');
+  const [description, setDescription] = useState('')
   const [checkbox, setCheckBox] = useState(false);
   const [showtime, setShowTime] = useState(false);
-  const [description, setDescription] = useState('')
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
   const appContext = useContext(AppContext);
-  const  {addEvent, events, colors, colorObj } = appContext;
+  const  {events, colors, selectedEvent, colorObj, editSelectedEvent } = appContext;
 
   const inputChange = (event) => {
     const attributeName = event.target.getAttribute('name')
@@ -26,13 +27,14 @@ const AddEvent = () => {
     if ( attributeName === 'description') {
       setDescription(event.target.value);
     } 
-    
   }
   
 
   const onCheckBoxChange = e => {
     if (e.target.checked === true){
-     
+
+     console.log(tryuingNewLib);
+
       setShowTime(true);
       setCheckBox(true);
       console.log("dasd")
@@ -43,7 +45,6 @@ const AddEvent = () => {
     }
   }
 
-  // const colors =['Primary', 'Success', 'Info', 'Warning', 'Danger'];
   // const colorObj = {
   //   primary: '#0275d8',
   //   success: '#5cb85c',
@@ -51,6 +52,30 @@ const AddEvent = () => {
   //   warning: '#f0ad4e',
   //   danger: '#d9534f',
   // }
+
+  useEffect(() => {
+    // Убедитесь, что selectedEvent не null и не undefined перед использованием Object.keys
+    if (selectedEvent && Object.keys(selectedEvent).length) {
+      setColor(selectedEvent.bgColor);
+      setEventName(selectedEvent.title);
+      setDescription(selectedEvent.description)
+      setCheckBox(selectedEvent.allDay);
+      const start = `${moment(new Date(startDate)).format()}`;
+      let end = '';
+      if (!selectedEvent.allDay) {
+        setShowTime(false);
+       end = `${moment(new Date(selectedEvent.end)).format()}`;
+      } else {
+        setShowTime(true);
+       end = `${moment(new Date(selectedEvent.end)).format('YYYY-MM-DD')}`;
+      }
+      setStartDate(new Date(start));
+      setEndDate(new Date(end));
+    }
+    // eslint-disable-next-line
+  }, [selectedEvent, events]);
+
+  const tryuingNewLib = Intl.DateTimeFormat(navigator.language, { weekday: 'long', month: 'short', day: 'numeric' }).format(new Date())
 
   const handleChange = event => {
     if (event.target.value !== 'Select color'){
@@ -73,11 +98,9 @@ const AddEvent = () => {
     }
   }
 
-  const createEvent = () => {
-    const event = setEvent(events.length+1);
-    // add event to events array using conext
-    addEvent(event);
-    reset();
+  const editEvent = () => {
+    const event = setEvent(selectedEvent.id);
+    editSelectedEvent(event);
   }
 
   const setEvent = id => {
@@ -103,27 +126,13 @@ const AddEvent = () => {
     return event;
   }
 
-  const reset = () => {
-    setColor('');
-    setEventName('');
-    setDescription('');
-    setCheckBox(false);
-    setShowTime(false);
-    setStartDate(new Date());
-    setEndDate(new Date());
-    
-  }
-
-  const closeModal = () =>{
-    reset();
-  }
+  const closeModal = () =>{}
 
   return (
-    <div >
+    < >
         <EventForm
-          modalId="add-event"
-          title="Add Event"
-          description={description}
+          modalId="edit-event"
+          title="Edit Event"
           closeModal={closeModal}
           eventname={eventname}
           inputChange={inputChange}
@@ -136,12 +145,12 @@ const AddEvent = () => {
           color={color}
           colors={colors}
           handleChange={handleChange}
-          eventType={createEvent}
+          eventType={editEvent}
+          buttonText="Update"
           colorObj={colorObj}
-          buttonText="Save"
         />
-    </div>
+    </>
   )
 }
 
-export default AddEvent
+export default EditEvent;
