@@ -1,8 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 import '../toast/Toast.css'
 import moment from 'moment'
+import UIfx from 'uifx';
 
 import AppContext from '../../context/App/appContext'
+import { clear } from '@testing-library/user-event/dist/clear'
+import { useLocalStorage } from '../../hooks/storage'
+import notificationSound from '../../assets/notificationSound.wav'
+
+const sound = new UIfx(notificationSound);
 
 export const Toast = () => {
     const appContext = useContext(AppContext);
@@ -14,9 +20,25 @@ export const Toast = () => {
         selected,
     } = appContext;
 
+    const [getActiveEvent, setActiveEvent] = useLocalStorage('eventActive');
+
     useEffect(() => {
-        addEvent();
-    }, [events])
+        const interval = setInterval(() =>{
+            addEvent();
+        }, 1000)
+
+        return () => {
+            clearInterval(interval)
+        }
+    })
+
+    useEffect(() => {
+        console.log(getActiveEvent);
+        if (getActiveEvent && Object.keys(getActiveEvent).length) {
+            //play sound
+            sound.play()
+        }
+    }, [getActiveEvent, sound]);
 
     const deleteEvent = event => {
         deleteSelectedEvent(event);
@@ -28,8 +50,9 @@ export const Toast = () => {
             for ( const event of events) {
                 const startEventDate = `${moment(new Date(event.start)).format('YYYY-MM-DDTHH:mm')}`;
                 const now = moment(new Date()).format('YYYY-MM-DDTHH:mm');
-                if (now !== startEventDate) {
+                if (now === startEventDate) {
                     activeEvents(event); 
+                    setActiveEvent(event);
                 }
             }
         }

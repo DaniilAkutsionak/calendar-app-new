@@ -77,7 +77,7 @@ const EventForm = props => {
                                     <ReactDatePicker
                                         showTimeSelect
                                         timeFormat='p'
-                                        timeIntervals={60}
+                                        timeIntervals={1}
                                         dateFormat="MMMM d, yyyy h:mm aa"
                                         selected={startDate}
                                         onChange={onInputChange('startdate')}
